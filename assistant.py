@@ -21,17 +21,6 @@ print("Loading Whisper model...")
 whisper = WhisperModel("base", compute_type="int8")
 
 # ---------------- RECORD ----------------
-# def record_audio(file="input.wav"):
-#     print("🎤 Listening...")
-
-#     audio = sd.rec(int(RECORD_SECONDS * SAMPLE_RATE),
-#                    samplerate=SAMPLE_RATE,
-#                    channels=1,
-#                    dtype='int16')
-
-#     sd.wait()
-#     write(file, SAMPLE_RATE, audio)
-#     return file
 def record_audio():
     print("🎤 Listening...")
 
@@ -69,15 +58,6 @@ def ask_ai(text):
     return reply
 
 # ---------------- TTS ----------------
-# def speak(text):
-#     print("AI:", text)
-
-#     file = f"{uuid.uuid4()}.wav"
-
-#     cmd = f'echo "{text}" | {PIPER_PATH} --model {VOICE_MODEL} --output_file {file}'
-#     subprocess.call(cmd, shell=True)
-
-#     os.system(f'aplay {file}')
 def speak(text):
     print("AI:", text)
 
