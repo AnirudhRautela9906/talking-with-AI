@@ -84,9 +84,9 @@ def speak(text):
     file = "/tmp/voice_ai_output.wav"
 
     subprocess.run([
-        "/home/admin1/voice-ai/piper/piper",
+        "./piper/piper",
         "--model",
-        "/home/admin1/voice-ai/voices/en_US-lessac-medium.onnx",
+        "./voices/en_US-lessac-medium.onnx",
         "--output_file",
         file
     ], input=text.encode("utf-8"), check=True)
