@@ -3,3 +3,4 @@ voices/
 *.onnx
 *.wav
 __pycache__/
+.env
