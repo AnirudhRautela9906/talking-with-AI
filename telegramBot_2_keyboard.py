@@ -1,12 +1,17 @@
 import requests
 import time
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+TOKEN = os.getenv("TELEGRAM_TOKEN")
 # ==============================
 # CONFIG
 # ==============================
-TOKEN = "8599376063:AAHWPmKLzU6Vv2liqrnAGQv-ys3EEteGwdE"
-BASE_URL = f"https://api.telegram.org/bot{TOKEN}/"
 OLLAMA_URL = "http://localhost:11434/api/generate"
+
+BASE_URL = f"https://api.telegram.org/bot{TOKEN}/"
 
 last_update_id = None
 

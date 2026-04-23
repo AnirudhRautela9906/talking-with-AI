@@ -1,16 +1,16 @@
 import requests
 import time
+import os
+from dotenv import load_dotenv
 
-# ==============================
-# CONFIG
-# ==============================
-TOKEN = "8599376063:AAHWPmKLzU6Vv2liqrnAGQv-ys3EEteGwdE"
+load_dotenv()
+
+TOKEN = os.getenv("TELEGRAM_TOKEN")
+
 BASE_URL = f"https://api.telegram.org/bot{TOKEN}/"
 OLLAMA_URL = "http://localhost:11434/api/generate"
 
 last_update_id = None
-
-# Store user modes (for "Ask Anything")
 user_mode = {}
 
 # ==============================
@@ -27,8 +27,9 @@ def send_message(chat_id, text, reply_markup=None):
 
     requests.post(BASE_URL + "sendMessage", json=data)
 
+
 # ==============================
-# SEND INLINE MENU
+# INLINE MENU
 # ==============================
 def send_menu(chat_id):
     keyboard = {
@@ -41,6 +42,7 @@ def send_menu(chat_id):
     }
 
     send_message(chat_id, "Choose an option:", keyboard)
+
 
 # ==============================
 # GET UPDATES
@@ -56,6 +58,7 @@ def get_updates():
     res = requests.get(BASE_URL + "getUpdates", params=params)
     return res.json().get("result", [])
 
+
 # ==============================
 # AI FUNCTION
 # ==============================
@@ -67,13 +70,15 @@ def ask_ai(prompt):
                 "model": "llama3",
                 "prompt": prompt,
                 "stream": False
-            }
+            },
+            timeout=30
         )
 
         return res.json().get("response", "No response from AI")
 
     except Exception as e:
         return f"AI Error: {str(e)}"
+
 
 # ==============================
 # MAIN LOOP
@@ -119,11 +124,14 @@ def run_bot():
                     send_message(chat_id, "❓ Ask me anything...")
 
                 elif data == "cmd":
-                    print("Command Executed")  # 🔥 REQUIRED
+                    print("Command Executed")
                     send_message(chat_id, "✅ Command executed successfully!")
 
+                # 🔥 ALWAYS SHOW MENU AGAIN
+                send_menu(chat_id)
+
             # ======================
-            # HANDLE TEXT MESSAGES
+            # HANDLE TEXT
             # ======================
             if "message" in update:
                 msg = update["message"]
@@ -134,27 +142,27 @@ def run_bot():
 
                     print("User:", text)
 
-                    # start command
+                    # START COMMAND
                     if text == "/start":
-                        # send_message(chat_id, "", {
-                        #     "remove_keyboard": True
-                        # })
-                        
                         send_menu(chat_id)
 
-                    # handle "Ask Anything" mode
+                    # ASK ANYTHING MODE
                     elif user_mode.get(chat_id) == "ask":
                         send_message(chat_id, "🤖 Thinking...")
                         reply = ask_ai(text)
                         send_message(chat_id, reply)
 
-                        # reset mode (optional)
                         user_mode[chat_id] = None
+
+                        # 🔥 SHOW MENU AGAIN
+                        send_menu(chat_id)
 
                     else:
                         send_message(chat_id, "Use /start to open menu.")
 
+
         time.sleep(1)
+
 
 # ==============================
 # START
