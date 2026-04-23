@@ -139,6 +139,7 @@ def run_bot():
                         # send_message(chat_id, "", {
                         #     "remove_keyboard": True
                         # })
+                        
                         send_menu(chat_id)
 
                     # handle "Ask Anything" mode
