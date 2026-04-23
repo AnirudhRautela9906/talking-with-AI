@@ -70,8 +70,7 @@ def ask_ai(prompt):
                 "model": "llama3",
                 "prompt": prompt,
                 "stream": False
-            },
-            timeout=30
+            } 
         )
 
         return res.json().get("response", "No response from AI")
@@ -128,7 +127,8 @@ def run_bot():
                     send_message(chat_id, "✅ Command executed successfully!")
 
                 # 🔥 ALWAYS SHOW MENU AGAIN
-                send_menu(chat_id)
+                if data != "ask":
+                    send_menu(chat_id)
 
             # ======================
             # HANDLE TEXT
