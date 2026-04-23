@@ -190,8 +190,12 @@ while True:
         # reply = chat_with_ai(user_id, text)
 
         # speak(reply)
-        if text.lower() in ["exit", "quit", "stop"]:
-            speak("Thanks for your time. Let me quickly evaluate your requirements.")
+        STOP_WORDS = ["exit", "quit", "stop", "bye", "goodbye", "end call"]
+
+        clean_text = text.lower().strip()
+
+        if any(word in clean_text for word in STOP_WORDS):
+            speak("Thanks for your time. Let me evaluate your requirements.")
 
             lead_status = classify_lead(user_id)
 
@@ -199,7 +203,11 @@ while True:
 
             save_lead(user_id, lead_status)
 
-            break       
+            break
+
+        # 🔥 NORMAL FLOW
+        reply = chat_with_ai(user_id, text)
+        speak(reply)    
 
     except KeyboardInterrupt:
         print("\nStopping...")
