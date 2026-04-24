@@ -6,6 +6,11 @@ import uuid
 import os
 import numpy as np
 from scipy.io.wavfile import write
+from dotenv import load_dotenv
+
+load_dotenv()
+
+COMPANY_TOOL_NAME = os.getenv("COMPANY_TOOL_NAME")
 
 # ---------------- CONFIG ----------------
 SAMPLE_RATE = 16000
@@ -20,7 +25,8 @@ VOICE_MODEL = "./voices/en_US-lessac-medium.onnx"
 # ---------------- LOAD CRM SCRIPT ----------------
 with open("CRM_Script.txt", "r") as f:
     SYSTEM_PROMPT = f.read()
-
+SYSTEM_PROMPT = SYSTEM_PROMPT.replace("COMPANY_TOOL_NAME", COMPANY_TOOL_NAME)
+# print(SYSTEM_PROMPT)
 # ---------------- SESSION MEMORY ----------------
 sessions = {}
 
@@ -163,12 +169,12 @@ def save_lead(user_id, lead_status):
 
 
 # ---------------- MAIN LOOP ----------------
-print("\n🎙️ ZZCRM Voice AI Sales Agent Ready\n")
+print(f"\n🎙️ {COMPANY_TOOL_NAME} Voice AI Sales Agent Ready\n")
 
 user_id = "user_101"
 
 # 🔥 AI starts conversation
-first_message = "Start conversation with a new user visiting ZZCRM website."
+first_message = f"Start conversation with a new user visiting {COMPANY_TOOL_NAME} website."
 
 reply = chat_with_ai(user_id, first_message)
 speak(reply)
@@ -183,13 +189,6 @@ while True:
 
         print("📝 You:", text)
 
-        # if text.lower() in ["exit", "quit", "stop"]:
-        #     speak("Goodbye! 👋")
-        #     break
-
-        # reply = chat_with_ai(user_id, text)
-
-        # speak(reply)
         STOP_WORDS = ["exit", "quit", "stop", "bye", "goodbye", "end call"]
 
         clean_text = text.lower().strip()
