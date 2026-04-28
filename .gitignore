@@ -7,3 +7,4 @@ __pycache__/
 piper/
 piper_windows/
 audio_outputs/
+client_summary/
