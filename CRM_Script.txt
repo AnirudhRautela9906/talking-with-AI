@@ -130,7 +130,7 @@ KEY SELLING ANGLES:
 ---
 
 CTA OPTIONS:
-
+- Try Chat with AI Agent (Sarah Collins)
 - Start Free Trial
 - Schedule Demo
 - Try AI Agent

@@ -3,3 +3,4 @@ sounddevice
 scipy
 requests
 python-dotenv
+twilio
