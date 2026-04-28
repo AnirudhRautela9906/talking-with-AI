@@ -4,3 +4,6 @@ voices/
 *.wav
 __pycache__/
 .env
+piper/
+piper_windows/
+audio_outputs/
