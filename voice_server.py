@@ -1,3 +1,4 @@
+# voice_server.py
 import os
 import threading
 import time
@@ -43,7 +44,7 @@ def clean(text):
 # ---------------- VOICE ENTRY ----------------
 @app.route("/voice", methods=["POST"])
 def voice():
-
+    print("🔥 /voice api HIT")
     call_id = request.form.get("CallSid")
 
     # 🔥 warm immediately (safe per-call)
@@ -54,7 +55,7 @@ def voice():
 
     resp = VoiceResponse()
 
-    resp.say("Hello! Welcome to QQCRM AI sales assistant.")
+    resp.say("Welcome to QQCRM AI sales assistant.")
 
     gather = resp.gather(
         input="speech",
@@ -64,7 +65,7 @@ def voice():
         language="en-US"
     )
 
-    gather.say("Before we continue, shall I connect you to the QQCRM AI agent?")
+    gather.say("Is it the right time to talk?")
 
     print("🎧 Call started, waiting for user...")
 
